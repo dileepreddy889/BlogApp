@@ -2,6 +2,7 @@ package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.service.PostService;
+import com.springboot.blog.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -30,10 +31,12 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDto>> getAllPosts(
-            @RequestParam(value = "pageNo",defaultValue = "0",required = false) int pageNo,
-            @RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize
+            @RequestParam(value = "pageNo",defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,required = false) int pageNo,
+            @RequestParam(value = "pageSize",defaultValue = AppConstants.DEFAULT_PAGE_SIZE,required = false) int pageSize,
+            @RequestParam(value = "sortBy",defaultValue = AppConstants.DEFAULT_SORT_BY) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = AppConstants.DEFAULT_SORT_DIRECTION) String sortDir
     ){
-        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize),HttpStatus.OK);
+        return new ResponseEntity<>(postService.getAllPosts(pageNo,pageSize,sortBy,sortDir),HttpStatus.OK);
     }
 
     @GetMapping("/{id}/")
